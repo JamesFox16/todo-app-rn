@@ -2,6 +2,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { FlatList, Pressable, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useTasks } from '../../hooks/useTasks';
 import { styles } from './styles';
+import TodoListTask from '../../components/TodoListTask';
 
 interface TodoListProps {
   navigation: NativeStackNavigationProp<any, any>;
@@ -28,14 +29,7 @@ const TodoList = (props: TodoListProps) => {
         data={tasks}
         keyExtractor={item => item.id.toString()}
         ItemSeparatorComponent={() => <View style={{ height: 1, backgroundColor: '#ddd' }} />}
-        renderItem={({ item }) => (
-          <View style={{ padding: 16 }}>
-            <Text>{item.text}</Text>
-            <Pressable onPress={() => console.log('delete')}>
-              <Text>Delete</Text>
-            </Pressable>
-          </View>
-        )}
+        renderItem={({ item }) => <TodoListTask task={item} />}
       />
     </SafeAreaView>
   );
