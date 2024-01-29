@@ -1,4 +1,5 @@
-import { createContext, useContext, useReducer } from 'react';
+import { createContext, useCallback, useContext, useEffect, useReducer } from 'react';
+import Database from '../data/Database';
 
 export interface ITask {
   id: number;
@@ -28,7 +29,14 @@ type Dispatch = (action: DatabaseAction) => void;
 type State = DatabaseState;
 type DatabaseProviderProps = { children: React.ReactNode };
 
-const DatabaseStateContext = createContext<{ state: State } | undefined>(undefined);
+const DatabaseStateContext = createContext<
+  {
+    state: State,
+    addTask: (text: string) => void,
+    updateTaskCompleted: (update: ITask) => void,
+    removeTask: (id: number) => void,
+  } | undefined
+>(undefined);
 
 const databaseReducer = (state: State, action: DatabaseAction): State => {
   switch (action.type) {
@@ -73,7 +81,53 @@ const DatabaseProvider = ({ children }: DatabaseProviderProps) => {
     taskList: [],
   });
 
-  const value = { state, dispatch };
+  const initializeTodoList = useCallback(async () => {
+    try {
+      const response = await Database.getTasks();
+      dispatch({ type: DatabaseActionType.SET_TASK_LIST, payload: response });
+      dispatch({ type: DatabaseActionType.SET_INIT, payload: true });
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!state.initialized) {
+      initializeTodoList();
+    }
+  }, [state.initialized, initializeTodoList]);
+
+  const updateTaskCompleted = useCallback(async (update: ITask) => {
+    try {
+      await Database.updateTask(update.id, update.completed);
+      dispatch({ type: DatabaseActionType.UPDATE_IN_TASK_LIST, payload: update });
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  const addTask = useCallback(async (text: string) => {
+    try {
+      const response = await Database.addTask(text);
+      console.log(response);
+      if (response) {
+        dispatch({ type: DatabaseActionType.APPEND_TASK_LIST, payload: response as ITask });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  const removeTask = useCallback(async (id: number) => {
+    try {
+      await Database.deleteTask(id);
+      dispatch({ type: DatabaseActionType.DELETE_FROM_TASK_LIST, payload: id });
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  const value = { state, updateTaskCompleted, addTask, removeTask };
   return (
     <DatabaseStateContext.Provider value={value}>
       {children}

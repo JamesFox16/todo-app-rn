@@ -2,14 +2,14 @@ import { Pressable, Text, TextInput, View } from 'react-native';
 import { styles } from './styles';
 import { useState } from 'react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { useTasks } from '../../hooks/useTasks';
+import { useDatabase } from '../../hooks/useDatabase';
 
 interface AddTaskProps {
   navigation: NativeStackNavigationProp<any, any>;
 }
 const AddTask = (props: AddTaskProps) => {
   const [taskText, setTaskText] = useState<string>('');
-  const { tasks, setTasks, taskId, setTaskId } = useTasks();
+  const { addTask } = useDatabase();
 
   const onChangeText = (text: string) => {
     setTaskText(text);
@@ -17,16 +17,7 @@ const AddTask = (props: AddTaskProps) => {
 
   const addTaskPress = () => {
     if (taskText) {
-      console.log('add task');
-      // const newTask = {
-      //   id: taskId,
-      //   text: taskText,
-      //   completed: false,
-      // } as ITask;
-      // console.log('newTask', newTask);
-      // console.log('tasks', [...tasks, newTask]);
-      // setTasks([...tasks, newTask]);
-      // setTaskId(taskId + 1);
+      addTask(taskText);
       props.navigation.goBack();
     }
   }

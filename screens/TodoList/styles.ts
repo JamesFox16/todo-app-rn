@@ -26,5 +26,22 @@ export const styles = StyleSheet.create({
   addButton: {
     flex: 1,
     flexShrink: 0,
-  }
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 16,
+  },
+  emptyText: {
+    fontSize: 20,
+    color: '#555',
+  },
+  emptyListText: {
+    paddingVertical: 16,
+    paddingHorizontal: 8,
+    textAlign: 'center',
+    fontSize: 20,
+    color: '#555',
+  },
 })

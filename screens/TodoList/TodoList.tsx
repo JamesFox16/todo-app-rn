@@ -4,16 +4,17 @@ import { useTasks } from '../../hooks/useTasks';
 import { styles } from './styles';
 import TodoListTask from '../../components/TodoListTask';
 import { Ionicons } from '@expo/vector-icons';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import SearchBar from '../../components/SearchBar';
-import { ITask } from '../../hooks/useDatabase';
+import { ITask, useDatabase } from '../../hooks/useDatabase';
 
 interface TodoListProps {
   navigation: NativeStackNavigationProp<any, any>;
 }
 const TodoList = (props: TodoListProps) => {
-  const { tasks } = useTasks();
+  const { state: db } = useDatabase();
   const [filterText, setFilterText] = useState<string>('');
+  const tasks = useMemo(() => db.taskList, [db.taskList]);
 
   const addNewTask = () => {
     props.navigation.navigate('AddTask');
@@ -38,17 +39,27 @@ const TodoList = (props: TodoListProps) => {
             onClearText={onClearText}
             value={filterText}
           />
-          <Pressable style={styles.addButton} onPress={addNewTask}>
+          <Pressable hitSlop={8} style={styles.addButton} onPress={addNewTask}>
             <Ionicons name='add' size={18} color='black' />
           </Pressable>
         </View>
       </View>
-      <FlatList
-        data={tasks.filter((task: ITask) => task.text.toLowerCase().includes(filterText.toLowerCase()))}
-        keyExtractor={item => item.id.toString()}
-        ItemSeparatorComponent={() => <View style={{ height: 1, backgroundColor: '#ddd' }} />}
-        renderItem={({ item }) => <TodoListTask task={item} />}
-      />
+      {tasks.length > 0 && (
+        <FlatList
+          data={tasks.filter((task: ITask) => task.text.toLowerCase().includes(filterText.toLowerCase()))}
+          keyExtractor={item => item.id.toString()}
+          ItemSeparatorComponent={() => <View style={{ height: 1, backgroundColor: '#ddd' }} />}
+          renderItem={({ item }) => <TodoListTask task={item} />}
+          ListEmptyComponent={() => <Text style={styles.emptyListText}>No tasks found matching '{filterText.toLowerCase()}'</Text>}
+        />
+      )}
+      {tasks.length === 0 && (
+        <View style={styles.emptyContainer}>
+          <Text style={styles.emptyText}>
+            Press <Ionicons  name='add' size={18} color='#555' /> to get started
+          </Text>
+        </View>
+      )}
     </SafeAreaView>
   );
 }

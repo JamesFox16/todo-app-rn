@@ -3,28 +3,36 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import AddTask from './screens/AddTask';
 import TodoList from './screens/TodoList';
+import { DatabaseProvider } from './hooks/useDatabase';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <SafeAreaView style={styles.container}>
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName='TodoList'>
-          <Stack.Screen
-            name="TodoList"
-            component={TodoList}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="AddTask"
-            component={AddTask}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </SafeAreaView>
+    <DatabaseProvider>
+      <SafeAreaView style={styles.container}>
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName='TodoList'>
+            <Stack.Screen
+              name='TodoList'
+              component={TodoList}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name='AddTask'
+              component={AddTask}
+              options={{
+                animation: 'slide_from_bottom',
+                headerShown: true,
+                presentation: 'modal',
+              }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </SafeAreaView>
+    </DatabaseProvider>
   );
 }
 

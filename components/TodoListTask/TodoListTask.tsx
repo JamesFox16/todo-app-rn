@@ -1,8 +1,8 @@
 import { Pressable, Text, View } from 'react-native';
-import { ITask } from '../../hooks/useDatabase';
+import { ITask, useDatabase } from '../../hooks/useDatabase';
 import { styles } from './styles';
 import CheckboxPressable from '../CheckboxPressable';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 
 interface TaskProps {
@@ -10,16 +10,25 @@ interface TaskProps {
 }
 const TodoListTask = (props: TaskProps) => {
   const { task } = props;
-  const [checked, setChecked] = useState<boolean>(task.completed === 1);
+  const { updateTaskCompleted, removeTask } = useDatabase();
+  const completed = useMemo(() => task.completed === 1, [task.completed]);
 
   const deleteTask = () => {
-    console.log('delete task: ', task.id);
+    removeTask(task.id);
+  }
+
+  const updateTask = () => {
+    const updatedTask = {
+      ...task,
+      completed: completed ? 0 : 1,
+    } as ITask;
+    updateTaskCompleted(updatedTask);
   }
 
   return (
     <View style={styles.container}>
-      <CheckboxPressable checked={checked} onPress={() => setChecked(!checked)} />
-      <Text style={checked ? styles.textCompleted : styles.text}>{task.text}</Text>
+      <CheckboxPressable hitSlop={10} checked={completed} onPress={updateTask} />
+      <Text style={completed ? styles.textCompleted : styles.text}>{task.text}</Text>
       <Pressable onPress={deleteTask}>
         <Ionicons name='trash-outline' size={18} color='black' />
       </Pressable>
