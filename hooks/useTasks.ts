@@ -1,11 +1,12 @@
-import { useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 export interface ITask {
   id: number;
   text: string;
   completed: boolean;
 }
-export function useTasks() {
+export const useTasks = () => {
+  const [taskId, setTaskId] = useState<number>(7);
   const [tasks, setTasks] = useState<ITask[]>([
     {
       id: 1,
@@ -39,5 +40,5 @@ export function useTasks() {
     },
   ]);
 
-  return { tasks, setTasks } as const;
+  return { tasks, setTasks, taskId, setTaskId };
 }

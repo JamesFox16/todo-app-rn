@@ -19,7 +19,7 @@ const TodoListTask = (props: TaskProps) => {
   return (
     <View style={styles.container}>
       <CheckboxPressable checked={checked} onPress={() => setChecked(!checked)} />
-      <Text>{task.text}</Text>
+      <Text style={checked ? styles.textCompleted : styles.text}>{task.text}</Text>
       <Pressable onPress={deleteTask}>
         <Ionicons name='trash-outline' size={18} color='black' />
       </Pressable>
