@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useDatabase } from '../../hooks/useDatabase';
 
+
 interface AddTaskProps {
   navigation: NativeStackNavigationProp<any, any>;
 }
@@ -23,9 +24,15 @@ const AddTask = (props: AddTaskProps) => {
   }
   return (
     <View style={styles.container}>
-      <TextInput onChangeText={onChangeText} />
-      <Pressable onPress={addTaskPress}>
-        <Text>Add Task</Text>
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.textInput}
+          onChangeText={onChangeText}
+          multiline={true}
+        />
+      </View>
+      <Pressable style={styles.addTaskButton} onPress={addTaskPress}>
+        <Text style={styles.addTaskText}>Add Task</Text>
       </Pressable>
     </View>
   );
