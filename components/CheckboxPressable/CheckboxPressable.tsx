@@ -9,10 +9,10 @@ const CheckboxPressable = (props: CheckboxPressableProps) => {
   return (
     <Pressable {...rest}>
       {checked && (
-        <Ionicons name='checkmark-circle-outline' size={18} color='#306844' />
+        <Ionicons name='checkmark-circle-outline' size={20} color='#306844' />
       )}
       {!checked && (
-        <Ionicons name='ellipse-outline' size={18} color='black' />
+        <Ionicons name='ellipse-outline' size={20} color='black' />
       )}
     </Pressable>
   );

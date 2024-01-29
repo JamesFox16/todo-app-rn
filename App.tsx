@@ -1,6 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { SafeAreaView, StyleSheet } from 'react-native';
+import { SafeAreaView, StatusBar, StyleSheet } from 'react-native';
 import AddTask from './screens/AddTask';
 import TodoList from './screens/TodoList';
 import { DatabaseProvider } from './hooks/useDatabase';
@@ -10,7 +10,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <DatabaseProvider>
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={{ flex: 1, marginTop: StatusBar.currentHeight }}>
         <NavigationContainer>
           <Stack.Navigator initialRouteName='TodoList'>
             <Stack.Screen
