@@ -87,7 +87,8 @@ const DatabaseProvider = ({ children }: DatabaseProviderProps) => {
       dispatch({ type: DatabaseActionType.SET_TASK_LIST, payload: response });
       dispatch({ type: DatabaseActionType.SET_INIT, payload: true });
     } catch (error) {
-      console.log(error);
+      // console.log(error);
+      // TODO: Handle error
     }
   }, []);
 
@@ -102,19 +103,20 @@ const DatabaseProvider = ({ children }: DatabaseProviderProps) => {
       await Database.updateTask(update.id, update.completed);
       dispatch({ type: DatabaseActionType.UPDATE_IN_TASK_LIST, payload: update });
     } catch (error) {
-      console.log(error);
+      // console.log(error);
+      // TODO: Handle error
     }
   }, []);
 
   const addTask = useCallback(async (text: string) => {
     try {
       const response = await Database.addTask(text);
-      console.log(response);
       if (response) {
         dispatch({ type: DatabaseActionType.APPEND_TASK_LIST, payload: response as ITask });
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
+      // TODO: Handle error
     }
   }, []);
 
@@ -123,7 +125,8 @@ const DatabaseProvider = ({ children }: DatabaseProviderProps) => {
       await Database.deleteTask(id);
       dispatch({ type: DatabaseActionType.DELETE_FROM_TASK_LIST, payload: id });
     } catch (error) {
-      console.log(error);
+      // console.log(error);
+      // TODO: Handle error
     }
   }, []);
 

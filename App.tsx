@@ -1,6 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView, StyleSheet } from 'react-native';
 import AddTask from './screens/AddTask';
 import TodoList from './screens/TodoList';
 import { DatabaseProvider } from './hooks/useDatabase';
@@ -27,6 +27,7 @@ export default function App() {
                 animation: 'slide_from_bottom',
                 headerShown: true,
                 presentation: 'modal',
+                headerTitle: 'New Task',
               }}
             />
           </Stack.Navigator>

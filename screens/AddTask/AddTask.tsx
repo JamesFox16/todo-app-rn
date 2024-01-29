@@ -1,4 +1,4 @@
-import { Pressable, Text, TextInput, View } from 'react-native';
+import { Pressable, ScrollView, Text, TextInput, View } from 'react-native';
 import { styles } from './styles';
 import { useState } from 'react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -23,9 +23,10 @@ const AddTask = (props: AddTaskProps) => {
     }
   }
   return (
-    <View style={styles.container}>
+    <ScrollView keyboardDismissMode='on-drag' style={styles.container}>
       <View style={styles.inputContainer}>
         <TextInput
+          autoFocus={true}
           style={styles.textInput}
           onChangeText={onChangeText}
           multiline={true}
@@ -34,7 +35,7 @@ const AddTask = (props: AddTaskProps) => {
       <Pressable style={styles.addTaskButton} onPress={addTaskPress}>
         <Text style={styles.addTaskText}>Add Task</Text>
       </Pressable>
-    </View>
+    </ScrollView>
   );
 }
 

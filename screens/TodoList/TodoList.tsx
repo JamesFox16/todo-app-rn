@@ -1,6 +1,5 @@
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { FlatList, Pressable, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
-import { useTasks } from '../../hooks/useTasks';
+import { FlatList, Pressable, SafeAreaView, Text, View } from 'react-native';
 import { styles } from './styles';
 import TodoListTask from '../../components/TodoListTask';
 import { Ionicons } from '@expo/vector-icons';
@@ -46,7 +45,7 @@ const TodoList = (props: TodoListProps) => {
       </View>
       {tasks.length > 0 && (
         <FlatList
-          data={tasks.filter((task: ITask) => task.text.toLowerCase().includes(filterText.toLowerCase()))}
+          data={tasks.filter((task: ITask) => task.text.toLowerCase().includes(filterText.trim().toLowerCase()))}
           keyExtractor={item => item.id.toString()}
           ItemSeparatorComponent={() => <View style={{ height: 1, backgroundColor: '#ddd' }} />}
           renderItem={({ item }) => <TodoListTask task={item} />}

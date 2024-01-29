@@ -7,18 +7,12 @@ const UPDATE_TASK = 'UPDATE tasks SET completed = ? WHERE id = ?';
 const DELETE_TASK = 'DELETE FROM tasks WHERE id = ?';
 
 export default class Database {
+  // Add a task to the tasks table
   static addTask(text: string) {
     const db = SQLiteDatabase.getInstance();
     return new Promise((resolve, reject) => {
       return db.transaction((tx) =>
         tx.executeSql(INSERT_TASK, [text, 0], (_, result) => {
-          console.log('Task added');
-          console.log(result);
-          const task = {
-            id: result.insertId,
-            text,
-            completed: 0,
-          }
           return resolve({ id: result.insertId, text, completed: 0 });
         }, (_, error) => {
             reject(error);
@@ -49,13 +43,12 @@ export default class Database {
     });
   }
 
+  // Update the completed status of a task. 0 = not completed, 1 = completed
   static updateTask(id: number, completed: number): Promise<void> {
     const db = SQLiteDatabase.getInstance();
     return new Promise<void>((resolve, reject) => {
       return db.transaction((tx) =>
         tx.executeSql(UPDATE_TASK, [completed ? 1 : 0, id], (_, result) => {
-          console.log('Task updated');
-          console.log(result);
           return resolve();
         }, (_, error) => {
             reject(error);
@@ -66,13 +59,12 @@ export default class Database {
     });
   }
 
+  // Delete a task from the tasks table
   static deleteTask(id: number): Promise<void> {
     const db = SQLiteDatabase.getInstance();
     return new Promise<void>((resolve, reject) => {
       return db.transaction((tx) =>
         tx.executeSql(DELETE_TASK, [id], (_, result) => {
-          console.log('Task deleted');
-          console.log(result);
           return resolve();
         }, (_, error) => {
             reject(error);

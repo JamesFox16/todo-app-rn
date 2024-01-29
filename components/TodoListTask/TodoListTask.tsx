@@ -2,7 +2,7 @@ import { Pressable, Text, View } from 'react-native';
 import { ITask, useDatabase } from '../../hooks/useDatabase';
 import { styles } from './styles';
 import CheckboxPressable from '../CheckboxPressable';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 
 interface TaskProps {

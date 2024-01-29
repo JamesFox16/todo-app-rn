@@ -10,9 +10,7 @@ class _SQLiteDatabase {
             id INTEGER PRIMARY KEY AUTOINCREMENT,\
             text TEXT,\
             completed INT\
-        )', [], () => {
-          console.log('Database Opened');
-        }
+        )', [], () => {}
       );
     });
   }
