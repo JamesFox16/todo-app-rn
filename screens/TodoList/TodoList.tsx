@@ -1,11 +1,12 @@
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { FlatList, Pressable, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
-import { ITask, useTasks } from '../../hooks/useTasks';
+import { useTasks } from '../../hooks/useTasks';
 import { styles } from './styles';
 import TodoListTask from '../../components/TodoListTask';
 import { Ionicons } from '@expo/vector-icons';
 import { useState } from 'react';
 import SearchBar from '../../components/SearchBar';
+import { ITask } from '../../hooks/useDatabase';
 
 interface TodoListProps {
   navigation: NativeStackNavigationProp<any, any>;
@@ -23,7 +24,7 @@ const TodoList = (props: TodoListProps) => {
   }
 
   const onClearText = () => {
-    setFilterText("");
+    setFilterText('');
   }
 
   return (

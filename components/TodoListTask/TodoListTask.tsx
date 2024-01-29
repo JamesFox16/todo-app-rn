@@ -1,5 +1,5 @@
 import { Pressable, Text, View } from 'react-native';
-import { ITask } from '../../hooks/useTasks';
+import { ITask } from '../../hooks/useDatabase';
 import { styles } from './styles';
 import CheckboxPressable from '../CheckboxPressable';
 import { useState } from 'react';
@@ -10,7 +10,7 @@ interface TaskProps {
 }
 const TodoListTask = (props: TaskProps) => {
   const { task } = props;
-  const [checked, setChecked] = useState<boolean>(task.completed);
+  const [checked, setChecked] = useState<boolean>(task.completed === 1);
 
   const deleteTask = () => {
     console.log('delete task: ', task.id);
